@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GymLinkPro.Data;
@@ -33,23 +32,39 @@ namespace GymLinkPro.Controllers
         public async Task<ActionResult<GymClass>> GetGymClass(int id)
         {
             var gymClass = await _context.GymClasses.FindAsync(id);
-
             if (gymClass == null)
             {
                 return NotFound();
             }
-
             return gymClass;
         }
 
+        // POST: api/GymClasses
+        [HttpPost]
+        public async Task<ActionResult<GymClass>> PostGymClass(GymClass gymClass)
+        {
+            gymClass.TrainerId = GetCurrentUserId();
+            _context.GymClasses.Add(gymClass);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetGymClass), new { id = gymClass.GymClassId }, gymClass);
+        }
+
         // PUT: api/GymClasses/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutGymClass(int id, GymClass gymClass)
         {
             if (id != gymClass.GymClassId)
             {
                 return BadRequest();
+            }
+
+            int currentUserId = GetCurrentUserId();
+            bool isTrainer = gymClass.TrainerId == currentUserId;
+            bool isAdmin = _context.Users.Any(u => u.UserId == currentUserId && u.Role == "Admin");
+
+            if (!isTrainer && !isAdmin)
+            {
+                return Forbid();
             }
 
             _context.Entry(gymClass).State = EntityState.Modified;
@@ -73,17 +88,6 @@ namespace GymLinkPro.Controllers
             return NoContent();
         }
 
-        // POST: api/GymClasses
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<GymClass>> PostGymClass(GymClass gymClass)
-        {
-            _context.GymClasses.Add(gymClass);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetGymClass", new { id = gymClass.GymClassId }, gymClass);
-        }
-
         // DELETE: api/GymClasses/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGymClass(int id)
@@ -92,6 +96,15 @@ namespace GymLinkPro.Controllers
             if (gymClass == null)
             {
                 return NotFound();
+            }
+
+            int currentUserId = GetCurrentUserId();
+            bool isTrainer = gymClass.TrainerId == currentUserId;
+            bool isAdmin = _context.Users.Any(u => u.UserId == currentUserId && u.Role == "Admin");
+
+            if (!isTrainer && !isAdmin)
+            {
+                return Forbid();
             }
 
             _context.GymClasses.Remove(gymClass);
@@ -103,6 +116,16 @@ namespace GymLinkPro.Controllers
         private bool GymClassExists(int id)
         {
             return _context.GymClasses.Any(e => e.GymClassId == id);
+        }
+
+        private int GetCurrentUserId()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+            {
+                return userId;
+            }
+            throw new UnauthorizedAccessException("User ID not found in claims.");
         }
     }
 }

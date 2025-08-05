@@ -11,6 +11,8 @@ namespace GymLinkPro.Models
         public int MemberId { get; set; }
 
         public int ProjectId { get; set; }
+
+        public string Role { get; set; } = "Member"; // Default role is Member
     }
 
     public class ProjectMemberDto
@@ -18,6 +20,7 @@ namespace GymLinkPro.Models
         public int ProjectMemberId { get; set; }
         public int MemberId { get; set; }
         public int ProjectId { get; set; }
+        public string Role { get; set; }
     }
 
     public class ProjectMemberDetailsViewModel

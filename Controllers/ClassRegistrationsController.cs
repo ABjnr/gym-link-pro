@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GymLinkPro.Data;
@@ -33,23 +32,39 @@ namespace GymLinkPro.Controllers
         public async Task<ActionResult<ClassRegistration>> GetClassRegistration(int id)
         {
             var classRegistration = await _context.ClassRegistrations.FindAsync(id);
-
             if (classRegistration == null)
             {
                 return NotFound();
             }
-
             return classRegistration;
         }
 
+        // POST: api/ClassRegistrations
+        [HttpPost]
+        public async Task<ActionResult<ClassRegistration>> PostClassRegistration(ClassRegistration classRegistration)
+        {
+            classRegistration.MemberId = GetCurrentUserId();
+            _context.ClassRegistrations.Add(classRegistration);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetClassRegistration), new { id = classRegistration.ClassRegistrationId }, classRegistration);
+        }
+
         // PUT: api/ClassRegistrations/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutClassRegistration(int id, ClassRegistration classRegistration)
         {
             if (id != classRegistration.ClassRegistrationId)
             {
                 return BadRequest();
+            }
+
+            int currentUserId = GetCurrentUserId();
+            bool isOwner = classRegistration.MemberId == currentUserId;
+            bool isAdmin = _context.Users.Any(u => u.UserId == currentUserId && u.Role == "Admin");
+
+            if (!isOwner && !isAdmin)
+            {
+                return Forbid();
             }
 
             _context.Entry(classRegistration).State = EntityState.Modified;
@@ -73,17 +88,6 @@ namespace GymLinkPro.Controllers
             return NoContent();
         }
 
-        // POST: api/ClassRegistrations
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<ClassRegistration>> PostClassRegistration(ClassRegistration classRegistration)
-        {
-            _context.ClassRegistrations.Add(classRegistration);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetClassRegistration", new { id = classRegistration.ClassRegistrationId }, classRegistration);
-        }
-
         // DELETE: api/ClassRegistrations/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteClassRegistration(int id)
@@ -92,6 +96,15 @@ namespace GymLinkPro.Controllers
             if (classRegistration == null)
             {
                 return NotFound();
+            }
+
+            int currentUserId = GetCurrentUserId();
+            bool isOwner = classRegistration.MemberId == currentUserId;
+            bool isAdmin = _context.Users.Any(u => u.UserId == currentUserId && u.Role == "Admin");
+
+            if (!isOwner && !isAdmin)
+            {
+                return Forbid();
             }
 
             _context.ClassRegistrations.Remove(classRegistration);
@@ -103,6 +116,16 @@ namespace GymLinkPro.Controllers
         private bool ClassRegistrationExists(int id)
         {
             return _context.ClassRegistrations.Any(e => e.ClassRegistrationId == id);
+        }
+
+        private int GetCurrentUserId()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+            {
+                return userId;
+            }
+            throw new UnauthorizedAccessException("User ID not found in claims.");
         }
     }
 }

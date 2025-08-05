@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GymLinkPro.Data;
@@ -32,18 +31,37 @@ namespace GymLinkPro.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ProjectMember>> GetProjectMember(int id)
         {
-            var projectMember = await _context.ProjectMembers.FindAsync(id);
-
-            if (projectMember == null)
+            var member = await _context.ProjectMembers.FindAsync(id);
+            if (member == null)
             {
                 return NotFound();
             }
+            return member;
+        }
 
-            return projectMember;
+        // POST: api/ProjectMembers
+        [HttpPost]
+        public async Task<ActionResult<ProjectMember>> PostProjectMember(ProjectMember projectMember)
+        {
+            int currentUserId = GetCurrentUserId();
+            var membership = await _context.ProjectMembers
+                .FirstOrDefaultAsync(pm => pm.ProjectId == projectMember.ProjectId && pm.MemberId == currentUserId);
+
+            bool isAdminOrCoAdmin = membership != null &&
+                (membership.Role == "Admin" || membership.Role == "Co-Admin");
+
+            if (!isAdminOrCoAdmin)
+            {
+                return Forbid();
+            }
+
+            _context.ProjectMembers.Add(projectMember);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetProjectMember), new { id = projectMember.ProjectMemberId }, projectMember);
         }
 
         // PUT: api/ProjectMembers/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProjectMember(int id, ProjectMember projectMember)
         {
@@ -52,36 +70,22 @@ namespace GymLinkPro.Controllers
                 return BadRequest();
             }
 
+            int currentUserId = GetCurrentUserId();
+            var membership = await _context.ProjectMembers
+                .FirstOrDefaultAsync(pm => pm.ProjectId == projectMember.ProjectId && pm.MemberId == currentUserId);
+
+            bool isAdminOrCoAdmin = membership != null &&
+                (membership.Role == "Admin" || membership.Role == "Co-Admin");
+
+            if (!isAdminOrCoAdmin)
+            {
+                return Forbid();
+            }
+
             _context.Entry(projectMember).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProjectMemberExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/ProjectMembers
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<ProjectMember>> PostProjectMember(ProjectMember projectMember)
-        {
-            _context.ProjectMembers.Add(projectMember);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProjectMember", new { id = projectMember.ProjectMemberId }, projectMember);
+            return NoContent();
         }
 
         // DELETE: api/ProjectMembers/5
@@ -94,15 +98,32 @@ namespace GymLinkPro.Controllers
                 return NotFound();
             }
 
+            int currentUserId = GetCurrentUserId();
+            var membership = await _context.ProjectMembers
+                .FirstOrDefaultAsync(pm => pm.ProjectId == projectMember.ProjectId && pm.MemberId == currentUserId);
+
+            bool isAdminOrCoAdmin = membership != null &&
+                (membership.Role == "Admin" || membership.Role == "Co-Admin");
+
+            if (!isAdminOrCoAdmin)
+            {
+                return Forbid();
+            }
+
             _context.ProjectMembers.Remove(projectMember);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool ProjectMemberExists(int id)
+        private int GetCurrentUserId()
         {
-            return _context.ProjectMembers.Any(e => e.ProjectMemberId == id);
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+            {
+                return userId;
+            }
+            throw new UnauthorizedAccessException("User ID not found in claims.");
         }
     }
 }
