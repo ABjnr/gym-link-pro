@@ -13,6 +13,10 @@ namespace GymLinkPro.Models
         public string Url { get; set; }
 
         public string Description { get; set; }
+
+        public int AddedByUserId { get; set; }
+
+        public string Category { get; set; } 
     }
 
     public class ProjectLinkDto
@@ -21,6 +25,8 @@ namespace GymLinkPro.Models
         public int ProjectId { get; set; }
         public string Url { get; set; }
         public string Description { get; set; }
+        public int AddedByUserId { get; set; }
+        public string Category { get; set; }
     }
 
     public class ProjectLinkDetailsViewModel

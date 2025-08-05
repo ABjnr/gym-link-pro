@@ -274,3 +274,4 @@ C:\Users\adeni\source\repos\GymLinkPro\GymLinkPro\bin\Debug\net8.0\runtimes\win\
 C:\Users\adeni\source\repos\GymLinkPro\GymLinkPro\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Drawing.Common.dll
 C:\Users\adeni\source\repos\GymLinkPro\GymLinkPro\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\adeni\source\repos\GymLinkPro\GymLinkPro\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Windows.Extensions.dll
+C:\Users\adeni\source\repos\GymLinkPro\GymLinkPro\obj\Debug\net8.0\GymLinkPro.sourcelink.json
