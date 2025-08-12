@@ -1,0 +1,24 @@
+@model GymLinkPro.Models.ClassRegistration
+
+@{
+    ViewData["Title"] = "Class Registration Details";
+}
+
+<h1>Class Registration Details</h1>
+
+<div>
+    <h4>ClassRegistration</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">MemberId</dt>
+        <dd class="col-sm-10">@Model.MemberId</dd>
+        <dt class="col-sm-2">ClassId</dt>
+        <dd class="col-sm-10">@Model.ClassId</dd>
+        <dt class="col-sm-2">Status</dt>
+        <dd class="col-sm-10">@Model.Status</dd>
+        <dt class="col-sm-2">RegistrationDate</dt>
+        <dd class="col-sm-10">@Model.RegistrationDate.ToString("g")</dd>
+    </dl>
+</div>
+<a asp-action="Edit" asp-route-id="@Model.ClassRegistrationId" class="btn btn-primary">Edit</a>
+<a asp-action="Index" class="btn btn-secondary">Back to List</a>

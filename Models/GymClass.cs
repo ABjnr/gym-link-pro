@@ -8,19 +8,26 @@ namespace GymLinkPro.Models
         [Key]
         public int GymClassId { get; set; }
 
-        public string Name { get; set; }
+        public required string Name { get; set; }
+
+        public string? Description { get; set; }
+        public TimeOnly? StartTime { get; set; }
+        public TimeOnly? EndTime { get; set; }
+        public string? Instructor { get; set; }
 
         public int TrainerId { get; set; }
-
         public DateTime ScheduleTime { get; set; }
-
         public int MaxCapacity { get; set; }
     }
 
     public class GymClassDto
     {
         public int GymClassId { get; set; }
-        public string Name { get; set; }
+        public required string Name { get; set; }
+        public string? Description { get; set; }
+        public TimeOnly? StartTime { get; set; }
+        public TimeOnly? EndTime { get; set; }
+        public string? Instructor { get; set; }
         public int TrainerId { get; set; }
         public DateTime ScheduleTime { get; set; }
         public int MaxCapacity { get; set; }
@@ -28,6 +35,6 @@ namespace GymLinkPro.Models
 
     public class GymClassDetailsViewModel
     {
-        public GymClassDto GymClass { get; set; }
+        public required GymClassDto GymClass { get; set; }
     }
 }

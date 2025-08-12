@@ -1,0 +1,27 @@
+@model GymLinkPro.Models.ProjectLink
+
+@{
+    ViewData["Title"] = "Add Project Link";
+}
+
+<h1>Add Project Link</h1>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="ProjectId"></label>
+        <input asp-for="ProjectId" class="form-control" />
+        <span asp-validation-for="ProjectId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Url"></label>
+        <input asp-for="Url" class="form-control" />
+        <span asp-validation-for="Url" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</form>

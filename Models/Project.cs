@@ -13,12 +13,16 @@ namespace GymLinkPro.Models
         public string Name { get; set; }
 
         public string Description { get; set; }
+
+        // Navigation property
+        [ForeignKey("CreatorId")]
+        public virtual User Creator { get; set; }
     }
 
     public class ProjectDto
     {
         public int ProjectId { get; set; }
-        public int CreatorId { get; set; }
+        public int Creator { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
     }

@@ -1,0 +1,37 @@
+@model IEnumerable<GymLinkPro.Models.ProjectLink>
+
+@{
+    ViewData["Title"] = "Project Links";
+}
+
+<h1>Project Links</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Add New Link</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(m => m.First().ProjectId)</th>
+            <th>@Html.DisplayNameFor(m => m.First().Url)</th>
+            <th>@Html.DisplayNameFor(m => m.First().Description)</th>
+            <th>@Html.DisplayNameFor(m => m.First().AddedByUserId)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>@item.ProjectId</td>
+            <td>@item.Url</td>
+            <td>@item.Description</td>
+            <td>@item.AddedByUserId</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ProjectLinkId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ProjectLinkId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ProjectLinkId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,37 @@
+@model IEnumerable<GymLinkPro.Models.ClassRegistration>
+
+@{
+    ViewData["Title"] = "Class Registrations";
+}
+
+<h1>Class Registrations</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(m => m.First().MemberId)</th>
+            <th>@Html.DisplayNameFor(m => m.First().ClassId)</th>
+            <th>@Html.DisplayNameFor(m => m.First().Status)</th>
+            <th>@Html.DisplayNameFor(m => m.First().RegistrationDate)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>@item.MemberId</td>
+            <td>@item.ClassId</td>
+            <td>@item.Status</td>
+            <td>@item.RegistrationDate.ToString("g")</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ClassRegistrationId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ClassRegistrationId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ClassRegistrationId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

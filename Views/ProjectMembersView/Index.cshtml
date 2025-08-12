@@ -1,0 +1,37 @@
+@model IEnumerable<GymLinkPro.Models.ProjectMember>
+
+@{
+    ViewData["Title"] = "Project Members";
+    var users = ViewBag.Users as Dictionary<int, string>;
+    var projects = ViewBag.Projects as Dictionary<int, string>;
+}
+
+<h1>Project Members</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Add New Member</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Member</th>
+            <th>Project</th>
+            <th>@Html.DisplayNameFor(m => m.First().Role)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>@(users != null && users.ContainsKey(item.MemberId) ? users[item.MemberId] : item.MemberId.ToString())</td>
+            <td>@(projects != null && projects.ContainsKey(item.ProjectId) ? projects[item.ProjectId] : item.ProjectId.ToString())</td>
+            <td>@item.Role</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ProjectMemberId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ProjectMemberId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ProjectMemberId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

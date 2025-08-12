@@ -1,0 +1,24 @@
+@model GymLinkPro.Models.ProjectLink
+
+@{
+    ViewData["Title"] = "Project Link Details";
+}
+
+<h1>Project Link Details</h1>
+
+<div>
+    <h4>ProjectLink</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">ProjectId</dt>
+        <dd class="col-sm-10">@Model.ProjectId</dd>
+        <dt class="col-sm-2">Url</dt>
+        <dd class="col-sm-10">@Model.Url</dd>
+        <dt class="col-sm-2">Description</dt>
+        <dd class="col-sm-10">@Model.Description</dd>
+        <dt class="col-sm-2">AddedByUserId</dt>
+        <dd class="col-sm-10">@Model.AddedByUserId</dd>
+    </dl>
+</div>
+<a asp-action="Edit" asp-route-id="@Model.ProjectLinkId" class="btn btn-primary">Edit</a>
+<a asp-action="Index" class="btn btn-secondary">Back to List</a>

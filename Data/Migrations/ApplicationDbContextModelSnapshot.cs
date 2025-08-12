@@ -56,6 +56,15 @@ namespace GymLinkPro.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GymClassId"));
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<TimeOnly?>("EndTime")
+                        .HasColumnType("time");
+
+                    b.Property<string>("Instructor")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("MaxCapacity")
                         .HasColumnType("int");
 
@@ -65,6 +74,9 @@ namespace GymLinkPro.Data.Migrations
 
                     b.Property<DateTime>("ScheduleTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<TimeOnly?>("StartTime")
+                        .HasColumnType("time");
 
                     b.Property<int>("TrainerId")
                         .HasColumnType("int");
@@ -94,6 +106,8 @@ namespace GymLinkPro.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProjectId");
+
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("Projects");
                 });
@@ -385,6 +399,17 @@ namespace GymLinkPro.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("GymLinkPro.Models.Project", b =>
+                {
+                    b.HasOne("GymLinkPro.Models.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
