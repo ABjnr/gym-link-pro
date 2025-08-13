@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Class Registration Details";
+    var memberNames = ViewBag.MemberNames as Dictionary<int, string>;
+    var classNames = ViewBag.ClassNames as Dictionary<int, string>;
 }
 
 <h1>Class Registration Details</h1>
@@ -10,10 +12,18 @@
     <h4>ClassRegistration</h4>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">MemberId</dt>
-        <dd class="col-sm-10">@Model.MemberId</dd>
-        <dt class="col-sm-2">ClassId</dt>
-        <dd class="col-sm-10">@Model.ClassId</dd>
+        <dt class="col-sm-2">Member</dt>
+        <dd class="col-sm-10">
+            @(memberNames != null && memberNames.ContainsKey(Model.MemberId)
+                ? memberNames[Model.MemberId]
+                : "Unknown")
+        </dd>
+        <dt class="col-sm-2">Class</dt>
+        <dd class="col-sm-10">
+            @(classNames != null && classNames.ContainsKey(Model.ClassId)
+                ? classNames[Model.ClassId]
+                : "Unknown")
+        </dd>
         <dt class="col-sm-2">Status</dt>
         <dd class="col-sm-10">@Model.Status</dd>
         <dt class="col-sm-2">RegistrationDate</dt>

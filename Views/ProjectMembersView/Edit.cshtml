@@ -9,18 +9,27 @@
 <form asp-action="Edit" method="post">
     <input type="hidden" asp-for="ProjectMemberId" />
     <div class="form-group">
-        <label asp-for="MemberId"></label>
-        <input asp-for="MemberId" class="form-control" />
-        <span asp-validation-for="MemberId" class="text-danger"></span>
-    </div>
-    <div class="form-group">
         <label asp-for="ProjectId"></label>
-        <input asp-for="ProjectId" class="form-control" />
+        <select asp-for="ProjectId" class="form-control"
+                asp-items="@(new SelectList(ViewBag.Projects, "ProjectId", "Name"))">
+            <option value="">-- Select Project --</option>
+        </select>
         <span asp-validation-for="ProjectId" class="text-danger"></span>
     </div>
     <div class="form-group">
+        <label asp-for="MemberId"></label>
+        <select asp-for="MemberId" class="form-control"
+                asp-items="@(new SelectList(ViewBag.Users, "UserId", "Name"))">
+            <option value="">-- Select Member --</option>
+        </select>
+        <span asp-validation-for="MemberId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
         <label asp-for="Role"></label>
-        <input asp-for="Role" class="form-control" />
+        <select asp-for="Role" class="form-control"
+                asp-items="@(new SelectList(ViewBag.Roles))">
+            <option value="">-- Select Role --</option>
+        </select>
         <span asp-validation-for="Role" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Save</button>

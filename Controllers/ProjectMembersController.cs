@@ -20,14 +20,29 @@ namespace GymLinkPro.Controllers
             _context = context;
         }
 
-        // GET: api/ProjectMembers
+        /// <summary>
+        /// Retrieves all project members.
+        /// </summary>
+        /// <returns>An enumerable list of project members.</returns>
+        /// <example>
+        /// GET /api/ProjectMembers  
+        /// Response: [ { "ProjectMemberId": 1, "MemberId": 4, "Role": "Admin", ... }, ... ]
+        /// </example>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProjectMember>>> GetProjectMembers()
         {
             return await _context.ProjectMembers.ToListAsync();
         }
 
-        // GET: api/ProjectMembers/5
+        /// <summary>
+        /// Retrieves a specific project member by ID.
+        /// </summary>
+        /// <param name="id">The ID of the project member.</param>
+        /// <returns>The project member with the specified ID.</returns>
+        /// <example>
+        /// GET /api/ProjectMembers/5  
+        /// Response: { "ProjectMemberId": 5, "MemberId": 4, "Role": "Member", ... }
+        /// </example>
         [HttpGet("{id}")]
         public async Task<ActionResult<ProjectMember>> GetProjectMember(int id)
         {
@@ -39,7 +54,16 @@ namespace GymLinkPro.Controllers
             return member;
         }
 
-        // POST: api/ProjectMembers
+        /// <summary>
+        /// Creates a new project member.
+        /// </summary>
+        /// <param name="projectMember">The ProjectMember object to create.</param>
+        /// <returns>The created project member.</returns>
+        /// <example>
+        /// POST /api/ProjectMembers  
+        /// Body: { "ProjectId": 1, "MemberId": 4, "Role": "Admin" }  
+        /// Response: Created { "ProjectMemberId": 10, "ProjectId": 1, "MemberId": 4, "Role": "Admin", ... }
+        /// </example>
         [HttpPost]
         public async Task<ActionResult<ProjectMember>> PostProjectMember(ProjectMember projectMember)
         {
@@ -61,7 +85,17 @@ namespace GymLinkPro.Controllers
             return CreatedAtAction(nameof(GetProjectMember), new { id = projectMember.ProjectMemberId }, projectMember);
         }
 
-        // PUT: api/ProjectMembers/5
+        /// <summary>
+        /// Updates an existing project member.
+        /// </summary>
+        /// <param name="id">The ID of the project member to update.</param>
+        /// <param name="projectMember">The updated ProjectMember object.</param>
+        /// <returns>No content on success.</returns>
+        /// <example>
+        /// PUT /api/ProjectMembers/5  
+        /// Body: { "ProjectMemberId": 5, "ProjectId": 1, "MemberId": 4, "Role": "Co-Admin" }  
+        /// Response: No Content
+        /// </example>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProjectMember(int id, ProjectMember projectMember)
         {
@@ -88,7 +122,15 @@ namespace GymLinkPro.Controllers
             return NoContent();
         }
 
-        // DELETE: api/ProjectMembers/5
+        /// <summary>
+        /// Deletes a specific project member.
+        /// </summary>
+        /// <param name="id">The ID of the project member to delete.</param>
+        /// <returns>No content on success.</returns>
+        /// <example>
+        /// DELETE /api/ProjectMembers/5  
+        /// Response: No Content
+        /// </example>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProjectMember(int id)
         {
