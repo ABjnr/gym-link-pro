@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GymLinkPro")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+781142b674d0b8c4a79db6b1f5aeebdb98fa15d5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7c40ca4cd9182bc3c181932d9ce6797499269eef")]
 [assembly: System.Reflection.AssemblyProductAttribute("GymLinkPro")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GymLinkPro")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

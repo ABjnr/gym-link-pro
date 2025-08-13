@@ -20,6 +20,14 @@ namespace GymLinkPro.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Retrieves all users.
+        /// </summary>
+        /// <returns>An enumerable list of users.</returns>
+        /// <example>
+        /// GET /api/Users
+        /// Response: [ { "UserId": 1, "FirstName": "John", ... }, ... ]
+        /// </example>
         // GET: api/Users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
@@ -27,6 +35,15 @@ namespace GymLinkPro.Controllers
             return await _context.Users.ToListAsync();
         }
 
+        /// <summary>
+        /// Retrieves a specific user by ID.
+        /// </summary>
+        /// <param name="id">The ID of the user.</param>
+        /// <returns>The user with the specified ID.</returns>
+        /// <example>
+        /// GET /api/Users/5
+        /// Response: { "UserId": 5, "FirstName": "Jane", ... }
+        /// </example>
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
@@ -39,6 +56,16 @@ namespace GymLinkPro.Controllers
             return user;
         }
 
+        /// <summary>
+        /// Creates a new user.
+        /// </summary>
+        /// <param name="user">The User object to create.</param>
+        /// <returns>The created user.</returns>
+        /// <example>
+        /// POST /api/Users
+        /// Body: { "FirstName": "John", "LastName": "Doe", "Email": "john.doe@example.com", "Role": "Member" }
+        /// Response: Created { "UserId": 10, "FirstName": "John", ... }
+        /// </example>
         // POST: api/Users
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
@@ -48,6 +75,17 @@ namespace GymLinkPro.Controllers
             return CreatedAtAction(nameof(GetUser), new { id = user.UserId }, user);
         }
 
+        /// <summary>
+        /// Updates an existing user.
+        /// </summary>
+        /// <param name="id">The ID of the user to update.</param>
+        /// <param name="user">The updated User object.</param>
+        /// <returns>No content on success.</returns>
+        /// <example>
+        /// PUT /api/Users/5
+        /// Body: { "UserId": 5, "FirstName": "Jane", "LastName": "Doe", "Role": "Admin" }
+        /// Response: No Content
+        /// </example>
         // PUT: api/Users/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(int id, User user)
@@ -71,6 +109,15 @@ namespace GymLinkPro.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Deletes a specific user.
+        /// </summary>
+        /// <param name="id">The ID of the user to delete.</param>
+        /// <returns>No content on success.</returns>
+        /// <example>
+        /// DELETE /api/Users/5
+        /// Response: No Content
+        /// </example>
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)

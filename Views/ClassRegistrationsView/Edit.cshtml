@@ -10,17 +10,26 @@
     <input type="hidden" asp-for="ClassRegistrationId" />
     <div class="form-group">
         <label asp-for="MemberId"></label>
-        <input asp-for="MemberId" class="form-control" />
+        <select asp-for="MemberId" class="form-control"
+                asp-items="@(new SelectList(ViewBag.Members, "UserId", "Name", Model?.MemberId))">
+            <option value="">-- Select Member --</option>
+        </select>
         <span asp-validation-for="MemberId" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="ClassId"></label>
-        <input asp-for="ClassId" class="form-control" />
+        <select asp-for="ClassId" class="form-control"
+                asp-items="@(new SelectList(ViewBag.Classes, "GymClassId", "Name", Model?.ClassId))">
+            <option value="">-- Select Class --</option>
+        </select>
         <span asp-validation-for="ClassId" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Status"></label>
-        <input asp-for="Status" class="form-control" />
+        <select asp-for="Status" class="form-control"
+                asp-items="@(new SelectList(ViewBag.Statuses, Model?.Status))">
+            <option value="">-- Select Status --</option>
+        </select>
         <span asp-validation-for="Status" class="text-danger"></span>
     </div>
     <div class="form-group">

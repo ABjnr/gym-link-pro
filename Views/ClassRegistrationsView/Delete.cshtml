@@ -2,28 +2,38 @@
 
 @{
     ViewData["Title"] = "Delete Class Registration";
+    var memberNames = ViewBag.MemberNames as Dictionary<int, string>;
+    var classNames = ViewBag.ClassNames as Dictionary<int, string>;
 }
 
 <h1>Delete Class Registration</h1>
 
-<h3>Are you sure you want to delete this registration?</h3>
+<h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>ClassRegistration</h4>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">MemberId</dt>
-        <dd class="col-sm-10">@Model.MemberId</dd>
-        <dt class="col-sm-2">ClassId</dt>
-        <dd class="col-sm-10">@Model.ClassId</dd>
+        <dt class="col-sm-2">Member</dt>
+        <dd class="col-sm-10">
+            @(memberNames != null && memberNames.ContainsKey(Model.MemberId)
+                ? memberNames[Model.MemberId]
+                : "Unknown")
+        </dd>
+        <dt class="col-sm-2">Class</dt>
+        <dd class="col-sm-10">
+            @(classNames != null && classNames.ContainsKey(Model.ClassId)
+                ? classNames[Model.ClassId]
+                : "Unknown")
+        </dd>
         <dt class="col-sm-2">Status</dt>
         <dd class="col-sm-10">@Model.Status</dd>
-        <dt class="col-sm-2">RegistrationDate</dt>
+        <dt class="col-sm-2">Registration Date</dt>
         <dd class="col-sm-10">@Model.RegistrationDate.ToString("g")</dd>
     </dl>
 </div>
 
-<form asp-action="Delete" method="post">
+<form asp-action="DeleteConfirmed" method="post">
     <input type="hidden" asp-for="ClassRegistrationId" />
     <button type="submit" class="btn btn-danger">Delete</button>
-    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>

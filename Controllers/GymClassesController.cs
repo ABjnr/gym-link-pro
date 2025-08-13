@@ -20,6 +20,14 @@ namespace GymLinkPro.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Retrieves all gym classes.
+        /// </summary>
+        /// <returns>An enumerable list of gym classes.</returns>
+        /// <example>
+        /// GET /api/GymClasses
+        /// Response: [ { "GymClassId": 1, "Name": "Yoga", ... }, ... ]
+        /// </example>
         // GET: api/GymClasses
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GymClass>>> GetGymClasses()
@@ -27,6 +35,15 @@ namespace GymLinkPro.Controllers
             return await _context.GymClasses.ToListAsync();
         }
 
+        /// <summary>
+        /// Retrieves a specific gym class by ID.
+        /// </summary>
+        /// <param name="id">The ID of the gym class.</param>
+        /// <returns>The gym class with the specified ID.</returns>
+        /// <example>
+        /// GET /api/GymClasses/5
+        /// Response: { "GymClassId": 5, "Name": "Pilates", ... }
+        /// </example>
         // GET: api/GymClasses/5
         [HttpGet("{id}")]
         public async Task<ActionResult<GymClass>> GetGymClass(int id)
@@ -39,6 +56,16 @@ namespace GymLinkPro.Controllers
             return gymClass;
         }
 
+        /// <summary>
+        /// Creates a new gym class.
+        /// </summary>
+        /// <param name="gymClass">The GymClass object to create.</param>
+        /// <returns>The created gym class.</returns>
+        /// <example>
+        /// POST /api/GymClasses
+        /// Body: { "Name": "Yoga", "StartTime": "09:00", "EndTime": "10:00", "TrainerId": 2, ... }
+        /// Response: Created { "GymClassId": 10, "Name": "Yoga", ... }
+        /// </example>
         // POST: api/GymClasses
         [HttpPost]
         public async Task<ActionResult<GymClass>> PostGymClass(GymClass gymClass)
@@ -49,6 +76,17 @@ namespace GymLinkPro.Controllers
             return CreatedAtAction(nameof(GetGymClass), new { id = gymClass.GymClassId }, gymClass);
         }
 
+        /// <summary>
+        /// Updates an existing gym class.
+        /// </summary>
+        /// <param name="id">The ID of the gym class to update.</param>
+        /// <param name="gymClass">The updated GymClass object.</param>
+        /// <returns>No content on success.</returns>
+        /// <example>
+        /// PUT /api/GymClasses/5
+        /// Body: { "GymClassId": 5, "Name": "Pilates", "TrainerId": 2, ... }
+        /// Response: No Content
+        /// </example>
         // PUT: api/GymClasses/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutGymClass(int id, GymClass gymClass)
@@ -88,6 +126,15 @@ namespace GymLinkPro.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Deletes a specific gym class.
+        /// </summary>
+        /// <param name="id">The ID of the gym class to delete.</param>
+        /// <returns>No content on success.</returns>
+        /// <example>
+        /// DELETE /api/GymClasses/5
+        /// Response: No Content
+        /// </example>
         // DELETE: api/GymClasses/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGymClass(int id)

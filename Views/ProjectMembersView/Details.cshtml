@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Project Member Details";
+    var users = ViewBag.Users as Dictionary<int, string>;
+    var projects = ViewBag.Projects as Dictionary<int, string>;
 }
 
 <h1>Project Member Details</h1>
@@ -11,9 +13,13 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">Member</dt>
-        <dd class="col-sm-10">@ViewBag.UserName</dd>
+        <dd class="col-sm-10">
+            @(users != null && users.ContainsKey(Model.MemberId) ? users[Model.MemberId] : "Unknown")
+        </dd>
         <dt class="col-sm-2">Project</dt>
-        <dd class="col-sm-10">@ViewBag.ProjectName</dd>
+        <dd class="col-sm-10">
+            @(projects != null && projects.ContainsKey(Model.ProjectId) ? projects[Model.ProjectId] : "Unknown")
+        </dd>
         <dt class="col-sm-2">Role</dt>
         <dd class="col-sm-10">@Model.Role</dd>
     </dl>

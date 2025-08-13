@@ -20,6 +20,14 @@ namespace GymLinkPro.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Retrieves all projects.
+        /// </summary>
+        /// <returns>An enumerable list of projects.</returns>
+        /// <example>
+        /// GET /api/Projects
+        /// Response: [ { "ProjectId": 1, "Name": "Project A", ... }, ... ]
+        /// </example>
         // GET: api/Projects
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Project>>> GetProjects()
@@ -27,6 +35,15 @@ namespace GymLinkPro.Controllers
             return await _context.Projects.ToListAsync();
         }
 
+        /// <summary>
+        /// Retrieves a specific project by ID.
+        /// </summary>
+        /// <param name="id">The ID of the project.</param>
+        /// <returns>The project with the specified ID.</returns>
+        /// <example>
+        /// GET /api/Projects/5
+        /// Response: { "ProjectId": 5, "Name": "Project B", ... }
+        /// </example>
         // GET: api/Projects/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Project>> GetProject(int id)
@@ -39,6 +56,16 @@ namespace GymLinkPro.Controllers
             return project;
         }
 
+        /// <summary>
+        /// Creates a new project.
+        /// </summary>
+        /// <param name="project">The Project object to create.</param>
+        /// <returns>The created project.</returns>
+        /// <example>
+        /// POST /api/Projects
+        /// Body: { "Name": "New Project", "Description": "Project description" }
+        /// Response: Created { "ProjectId": 10, "Name": "New Project", ... }
+        /// </example>
         // POST: api/Projects
         [HttpPost]
         public async Task<ActionResult<Project>> PostProject(Project project)
@@ -62,6 +89,17 @@ namespace GymLinkPro.Controllers
             return CreatedAtAction(nameof(GetProject), new { id = project.ProjectId }, project);
         }
 
+        /// <summary>
+        /// Updates an existing project.
+        /// </summary>
+        /// <param name="id">The ID of the project to update.</param>
+        /// <param name="project">The updated Project object.</param>
+        /// <returns>No content on success.</returns>
+        /// <example>
+        /// PUT /api/Projects/5
+        /// Body: { "ProjectId": 5, "Name": "Updated Project", ... }
+        /// Response: No Content
+        /// </example>
         // PUT: api/Projects/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProject(int id, Project project)
@@ -104,6 +142,15 @@ namespace GymLinkPro.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Deletes a specific project.
+        /// </summary>
+        /// <param name="id">The ID of the project to delete.</param>
+        /// <returns>No content on success.</returns>
+        /// <example>
+        /// DELETE /api/Projects/5
+        /// Response: No Content
+        /// </example>
         // DELETE: api/Projects/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProject(int id)

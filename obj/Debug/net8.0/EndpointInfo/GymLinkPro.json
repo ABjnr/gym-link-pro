@@ -1192,6 +1192,10 @@
         "additionalProperties": false
       },
       "Project": {
+        "required": [
+          "creatorId",
+          "name"
+        ],
         "type": "object",
         "properties": {
           "projectId": {
@@ -1203,8 +1207,8 @@
             "format": "int32"
           },
           "name": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           },
           "description": {
             "type": "string",

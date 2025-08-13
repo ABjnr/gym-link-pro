@@ -20,14 +20,29 @@ namespace GymLinkPro.Controllers
             _context = context;
         }
 
-        // GET: api/ProjectLinks
+        /// <summary>
+        /// Retrieves all project links.
+        /// </summary>
+        /// <returns>An enumerable list of project links.</returns>
+        /// <example>
+        /// GET /api/ProjectLinks  
+        /// Response: [ { "ProjectLinkId": 1, "ProjectId": 1, "Url": "https://...", ... }, ... ]
+        /// </example>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProjectLink>>> GetProjectLinks()
         {
             return await _context.ProjectLinks.ToListAsync();
         }
 
-        // GET: api/ProjectLinks/5
+        /// <summary>
+        /// Retrieves a specific project link by ID.
+        /// </summary>
+        /// <param name="id">The ID of the project link.</param>
+        /// <returns>The project link with the specified ID.</returns>
+        /// <example>
+        /// GET /api/ProjectLinks/5  
+        /// Response: { "ProjectLinkId": 5, "ProjectId": 1, "Url": "...", ... }
+        /// </example>
         [HttpGet("{id}")]
         public async Task<ActionResult<ProjectLink>> GetProjectLink(int id)
         {
@@ -41,7 +56,17 @@ namespace GymLinkPro.Controllers
             return projectLink;
         }
 
-        // PUT: api/ProjectLinks/5
+        /// <summary>
+        /// Updates an existing project link.
+        /// </summary>
+        /// <param name="id">The ID of the project link to update.</param>
+        /// <param name="projectLink">The updated ProjectLink object.</param>
+        /// <returns>No content on success.</returns>
+        /// <example>
+        /// PUT /api/ProjectLinks/5  
+        /// Body: { "ProjectLinkId": 5, "ProjectId": 1, "Url": "https://new...", "Description": "Updated", "Category": "Docs" }  
+        /// Response: No Content
+        /// </example>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProjectLink(int id, ProjectLink projectLink)
         {
@@ -71,7 +96,16 @@ namespace GymLinkPro.Controllers
             return NoContent();
         }
 
-        // POST: api/ProjectLinks
+        /// <summary>
+        /// Creates a new project link.
+        /// </summary>
+        /// <param name="projectLink">The ProjectLink object to create.</param>
+        /// <returns>The created project link.</returns>
+        /// <example>
+        /// POST /api/ProjectLinks  
+        /// Body: { "ProjectId": 1, "Url": "https://example.com", "Description": "New link", "Category": "Docs" }  
+        /// Response: Created { "ProjectLinkId": 10, "ProjectId": 1, "Url": "https://example.com", ... }
+        /// </example>
         [HttpPost]
         public async Task<ActionResult<ProjectLink>> PostProjectLink(ProjectLink projectLink)
         {
@@ -83,7 +117,15 @@ namespace GymLinkPro.Controllers
             return CreatedAtAction(nameof(GetProjectLink), new { id = projectLink.ProjectLinkId }, projectLink);
         }
 
-        // DELETE: api/ProjectLinks/5
+        /// <summary>
+        /// Deletes a specific project link.
+        /// </summary>
+        /// <param name="id">The ID of the project link to delete.</param>
+        /// <returns>No content on success.</returns>
+        /// <example>
+        /// DELETE /api/ProjectLinks/5  
+        /// Response: No Content
+        /// </example>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProjectLink(int id)
         {

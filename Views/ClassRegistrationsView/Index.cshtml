@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Class Registrations";
+    var memberNames = ViewBag.MemberNames as Dictionary<int, string>;
+    var classNames = ViewBag.ClassNames as Dictionary<int, string>;
 }
 
 <h1>Class Registrations</h1>
@@ -12,8 +14,8 @@
 <table class="table">
     <thead>
         <tr>
-            <th>@Html.DisplayNameFor(m => m.First().MemberId)</th>
-            <th>@Html.DisplayNameFor(m => m.First().ClassId)</th>
+            <th>Member</th>
+            <th>Class</th>
             <th>@Html.DisplayNameFor(m => m.First().Status)</th>
             <th>@Html.DisplayNameFor(m => m.First().RegistrationDate)</th>
             <th></th>
@@ -22,8 +24,16 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>@item.MemberId</td>
-            <td>@item.ClassId</td>
+            <td>
+                @(memberNames != null && memberNames.ContainsKey(item.MemberId)
+                    ? memberNames[item.MemberId]
+                    : "Unknown")
+            </td>
+            <td>
+                @(classNames != null && classNames.ContainsKey(item.ClassId)
+                    ? classNames[item.ClassId]
+                    : "Unknown")
+            </td>
             <td>@item.Status</td>
             <td>@item.RegistrationDate.ToString("g")</td>
             <td>

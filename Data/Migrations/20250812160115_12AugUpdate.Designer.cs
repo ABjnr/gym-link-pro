@@ -4,6 +4,7 @@ using GymLinkPro.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GymLinkPro.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250812160115_12AugUpdate")]
+    partial class _12AugUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,10 +47,6 @@ namespace GymLinkPro.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ClassRegistrationId");
-
-                    b.HasIndex("ClassId");
-
-                    b.HasIndex("MemberId");
 
                     b.ToTable("ClassRegistrations");
                 });
@@ -144,8 +143,6 @@ namespace GymLinkPro.Data.Migrations
 
                     b.HasKey("ProjectLinkId");
 
-                    b.HasIndex("ProjectId");
-
                     b.ToTable("ProjectLinks");
                 });
 
@@ -168,8 +165,6 @@ namespace GymLinkPro.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProjectMemberId");
-
-                    b.HasIndex("ProjectId");
 
                     b.ToTable("ProjectMembers");
                 });
@@ -409,21 +404,6 @@ namespace GymLinkPro.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("GymLinkPro.Models.ClassRegistration", b =>
-                {
-                    b.HasOne("GymLinkPro.Models.GymClass", null)
-                        .WithMany()
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GymLinkPro.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("MemberId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("GymLinkPro.Models.Project", b =>
                 {
                     b.HasOne("GymLinkPro.Models.User", "Creator")
@@ -433,24 +413,6 @@ namespace GymLinkPro.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Creator");
-                });
-
-            modelBuilder.Entity("GymLinkPro.Models.ProjectLink", b =>
-                {
-                    b.HasOne("GymLinkPro.Models.Project", null)
-                        .WithMany()
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("GymLinkPro.Models.ProjectMember", b =>
-                {
-                    b.HasOne("GymLinkPro.Models.Project", null)
-                        .WithMany()
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
