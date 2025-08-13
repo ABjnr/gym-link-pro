@@ -30,7 +30,7 @@
 
 1. **Clone the repository:**
     ```sh
-    git clone https://github.com/yourusername/GymLinkPro.git
+    git clone https://github.com/ABjnr/gym-link-pro
     cd GymLinkPro
     ```
 
