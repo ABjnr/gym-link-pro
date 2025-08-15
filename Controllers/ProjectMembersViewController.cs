@@ -26,12 +26,21 @@ namespace GymLinkPro.Controllers
         /// GET /ProjectMembersView/Index  
         /// Response: [HTML page with table of project members and their roles]
         /// </example>
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1, int pageSize = 10)
         {
-            var projectMembers = await _context.ProjectMembers.ToListAsync();
+            var totalCount = await _context.ProjectMembers.CountAsync();
+            var members = await _context.ProjectMembers
+                .OrderBy(pm => pm.ProjectMemberId)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
             ViewBag.Users = _context.Users.ToDictionary(u => u.UserId, u => u.FirstName + " " + u.LastName);
             ViewBag.Projects = _context.Projects.ToDictionary(p => p.ProjectId, p => p.Name);
-            return View(projectMembers);
+
+            return View(members);
         }
 
         /// <summary>
