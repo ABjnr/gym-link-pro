@@ -26,11 +26,19 @@ namespace GymLinkPro.Controllers
         /// GET /ProjectsView/Index  
         /// Response: [HTML page with table of projects]
         /// </example>
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1, int pageSize = 10)
         {
+            var totalCount = await _context.Projects.CountAsync();
             var projects = await _context.Projects
                 .Include(p => p.Creator)
+                .OrderBy(p => p.ProjectId)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
             return View(projects);
         }
 

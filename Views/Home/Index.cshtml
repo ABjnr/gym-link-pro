@@ -1,8 +1,32 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="home-hero">
+    <h1>Welcome to GymLinkPro</h1>
+    <p>
+        Your all-in-one platform for managing gym classes, projects, and members.<br />
+        Organize schedules, track registrations, and collaborate on projects with ease.
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-md-6 about-section">
+        <h2>Why GymLinkPro?</h2>
+        <p>
+            GymLinkPro streamlines gym and project management for both staff and members. 
+            With role-based access, easy class registration, and project collaboration tools, 
+            you can focus on what matters most: your fitness and your team.
+        </p>
+    </div>
+    <div class="col-md-6 about-section">
+        <h2>Get Started</h2>
+        <p>
+            <strong>Admins:</strong> Manage users, classes, and projects.<br />
+            <strong>Trainers:</strong> Schedule and lead classes.<br />
+            <strong>Members:</strong> Register for classes and join projects.<br />
+            <br />
+            <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Register">Register Now</a>
+        </p>
+    </div>
 </div>

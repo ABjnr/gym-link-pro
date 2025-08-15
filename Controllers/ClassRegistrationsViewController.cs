@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace GymLinkPro.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class ClassRegistrationsViewController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -25,14 +25,21 @@ namespace GymLinkPro.Controllers
         /// GET /ClassRegistrationsView/Index  
         /// Response: [HTML page with table of class registrations]
         /// </example>
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1, int pageSize = 10)
         {
-            ViewBag.MemberNames = _context.Users
-                .ToDictionary(u => u.UserId, u => u.FirstName + " " + u.LastName);
-            ViewBag.ClassNames = _context.GymClasses
-                .ToDictionary(c => c.GymClassId, c => c.Name);
+            var totalCount = await _context.ClassRegistrations.CountAsync();
+            var registrations = await _context.ClassRegistrations
+                .OrderByDescending(r => r.RegistrationDate)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
 
-            return View(await _context.ClassRegistrations.ToListAsync());
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+            ViewBag.MemberNames = _context.Users.ToDictionary(u => u.UserId, u => u.FirstName + " " + u.LastName);
+            ViewBag.ClassNames = _context.GymClasses.ToDictionary(c => c.GymClassId, c => c.Name);
+
+            return View(registrations);
         }
 
         /// <summary>

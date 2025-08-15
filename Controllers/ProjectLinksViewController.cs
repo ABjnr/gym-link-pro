@@ -26,12 +26,20 @@ namespace GymLinkPro.Controllers
         /// GET /ProjectLinksView/Index
         /// Response: [HTML page with table of project links]
         /// </example>
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1, int pageSize = 10)
         {
-            ViewBag.UserNames = _context.Users
-                .ToDictionary(u => u.UserId, u => u.FirstName + " " + u.LastName);
+            var totalCount = await _context.ProjectLinks.CountAsync();
+            var links = await _context.ProjectLinks
+                .OrderBy(l => l.ProjectLinkId)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
 
-            return View(await _context.ProjectLinks.ToListAsync());
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+            ViewBag.UserNames = _context.Users.ToDictionary(u => u.UserId, u => u.FirstName + " " + u.LastName);
+
+            return View(links);
         }
 
         /// <summary>

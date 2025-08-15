@@ -1187,6 +1187,10 @@
           "maxCapacity": {
             "type": "integer",
             "format": "int32"
+          },
+          "imagePath": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

@@ -18,6 +18,8 @@ namespace GymLinkPro.Models
         public int TrainerId { get; set; }
         public DateTime ScheduleTime { get; set; }
         public int MaxCapacity { get; set; }
+
+        public string? ImagePath { get; set; }
     }
 
     public class GymClassDto
@@ -31,6 +33,7 @@ namespace GymLinkPro.Models
         public int TrainerId { get; set; }
         public DateTime ScheduleTime { get; set; }
         public int MaxCapacity { get; set; }
+        public string? ImagePath { get; set; } 
     }
 
     public class GymClassDetailsViewModel

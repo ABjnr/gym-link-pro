@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace GymLinkPro.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class UsersViewController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -27,9 +27,19 @@ namespace GymLinkPro.Controllers
         /// GET /UsersView/Index  
         /// Response: [HTML page with table of users]
         /// </example>
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1, int pageSize = 10)
         {
-            return View(await _context.Users.ToListAsync());
+            var totalCount = await _context.Users.CountAsync();
+            var users = await _context.Users
+                .OrderBy(u => u.UserId)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+            return View(users);
         }
 
         /// <summary>
